@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Clone - {% block title %}ERP{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='odoo_style.css') }}">
+</head>
+<body>
+    <div class="odoo-app">
+        <div class="odoo-header">
+            <div class="logo">
+                <span class="logo-icon">🏢</span>
+                <span class="logo-text">Odoo Clone</span>
+            </div>
+            <div class="user-menu">
+                <span class="user-name">👤 {{ current_user.username }}</span>
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn">Cerrar sesión</a>
+            </div>
+        </div>
+        
+        <div class="odoo-content">
+            <!-- Mensajes flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible">
+                            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Contenido principal -->
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+    <script>
+        // Auto-cerrar alertas después de 3 segundos
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.opacity = '0';
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 300);
+            });
+        }, 3000);
+    </script>
+</body>
+</html>

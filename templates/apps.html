@@ -1,0 +1,25 @@
+{% extends "base_odoo.html" %}
+
+{% block title %}Aplicaciones{% endblock %}
+
+{% block content %}
+<div class="apps-container">
+    <h1>Mis aplicaciones</h1>
+    <div class="apps-grid">
+        <div class="app-card">
+            <div class="app-icon">📇</div>
+            <h3>Contactos</h3>
+            <p>Gestiona tu agenda de contactos</p>
+            <a href="{{ url_for('contacts.contacts_list') }}" class="btn-primary">Abrir</a>
+        </div>
+        
+        <!-- Puedes añadir más aplicaciones aquí -->
+        <div class="app-card disabled">
+            <div class="app-icon">📦</div>
+            <h3>Productos</h3>
+            <p>Próximamente</p>
+            <button class="btn-secondary" disabled>En desarrollo</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
