@@ -16,6 +16,7 @@
             <table class="odoo-table">
                 <thead>
                     <tr>
+                        <th>Icono</th>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Teléfono</th>
@@ -26,6 +27,13 @@
                 <tbody>
                     {% for contact in contacts %}
                     <tr>
+                        <td>
+                            {% if contact.photo %}
+                                <img src="{{ url_for('static', filename=contact.photo) }}" alt="Icono de {{ contact.name }}" class="contact-avatar">
+                            {% else %}
+                                <div class="contact-avatar contact-avatar-fallback">{{ contact.name[:1] | upper }}</div>
+                            {% endif %}
+                        </td>
                         <td><strong>{{ contact.name }}</strong></td>
                         <td>{{ contact.email or '-' }}</td>
                         <td>{{ contact.phone or '-' }}</td>

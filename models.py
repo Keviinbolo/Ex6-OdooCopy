@@ -27,6 +27,7 @@ class Contact(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100))
     phone = db.Column(db.String(20))
+    photo = db.Column(db.String(255))
     company = db.Column(db.String(100))
     position = db.Column(db.String(100))
     notes = db.Column(db.Text)
@@ -46,6 +47,7 @@ class Contact(db.Model):
             'name': self.name,
             'email': self.email,
             'phone': self.phone,
+            'photo': self.photo,
             'company': self.company,
             'position': self.position,
             'notes': self.notes,

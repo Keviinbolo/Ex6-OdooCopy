@@ -11,7 +11,9 @@
         <div class="odoo-header">
             <div class="logo">
                 <span class="logo-icon">🏢</span>
-                <span class="logo-text">Odoo Clone</span>
+                <a href="{{ url_for('contacts.apps') }}" class="logo-link" title="Ir a aplicaciones">
+                    <span class="logo-text">Odoo Clone</span>
+                </a>
             </div>
             <div class="user-menu">
                 <span class="user-name">👤 {{ current_user.username }}</span>

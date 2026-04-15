@@ -1,0 +1,125 @@
+{% extends "base_odoo.html" %}
+
+{% block title %}
+	{% if contact %}Editar contacto{% else %}Nuevo contacto{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="contacts-container">
+	<div class="view-header">
+		<h1>{% if contact %}Editar contacto{% else %}Nuevo contacto{% endif %}</h1>
+		<a href="{{ url_for('contacts.contacts_list') }}" class="btn-sm">Volver</a>
+	</div>
+
+	<form method="POST" class="contact-form" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="photo">Icono del contacto (PNG)</label>
+			<input
+				type="file"
+				id="photo"
+				name="photo"
+				accept=".png,image/png"
+			>
+			{% if contact and contact.photo %}
+				<div class="contact-photo-preview">
+					<img src="{{ url_for('static', filename=contact.photo) }}" alt="Icono de {{ contact.name }}" class="contact-avatar lg">
+					<span>Icono actual</span>
+				</div>
+				<label class="remove-photo-option">
+					<input type="checkbox" name="remove_photo" value="1">
+					Quitar foto actual
+				</label>
+			{% endif %}
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="name">Nombre *</label>
+				<input
+					type="text"
+					id="name"
+					name="name"
+					value="{{ contact.name if contact else '' }}"
+					required
+					maxlength="100"
+					placeholder="Nombre del contacto"
+				>
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input
+					type="email"
+					id="email"
+					name="email"
+					value="{{ contact.email if contact else '' }}"
+					maxlength="100"
+					placeholder="ejemplo@correo.com"
+				>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="phone">Telefono</label>
+				<input
+					type="text"
+					id="phone"
+					name="phone"
+					value="{{ contact.phone if contact else '' }}"
+					maxlength="20"
+					placeholder="+34 600 000 000"
+				>
+			</div>
+
+			<div class="form-group">
+				<label for="company">Empresa</label>
+				<input
+					type="text"
+					id="company"
+					name="company"
+					value="{{ contact.company if contact else '' }}"
+					maxlength="100"
+					placeholder="Empresa"
+				>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="position">Puesto</label>
+			<input
+				type="text"
+				id="position"
+				name="position"
+				value="{{ contact.position if contact else '' }}"
+				maxlength="100"
+				placeholder="Cargo o puesto"
+			>
+		</div>
+
+		<div class="form-group">
+			<label for="notes">Notas</label>
+			<textarea
+				id="notes"
+				name="notes"
+				rows="5"
+				placeholder="Informacion adicional"
+			>{{ contact.notes if contact else '' }}</textarea>
+		</div>
+
+		{% if contact %}
+			<div class="edit-cancel-row">
+				<a href="{{ url_for('contacts.contacts_list') }}" class="btn-sm">Cancelar</a>
+			</div>
+			<div class="form-actions form-actions-edit">
+				<button type="submit" class="btn-primary">Guardar cambios</button>
+			</div>
+		{% else %}
+			<div class="form-actions">
+				<a href="{{ url_for('contacts.contacts_list') }}" class="btn-sm">Cancelar</a>
+				<button type="submit" class="btn-primary">Crear contacto</button>
+			</div>
+		{% endif %}
+	</form>
+</div>
+{% endblock %}

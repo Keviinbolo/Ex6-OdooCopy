@@ -1,5 +1,7 @@
 from flask import Flask, redirect, url_for
 from flask_login import LoginManager
+from sqlalchemy import inspect, text
+import os
 from config import Config
 from models import db, User
 
@@ -41,6 +43,18 @@ def index():
 # Crear tablas al iniciar (solo primera vez)
 with app.app_context():
     db.create_all()
+
+    # Crear carpeta de uploads para iconos de contacto.
+    os.makedirs(os.path.join(app.root_path, 'static', 'uploads', 'contacts'), exist_ok=True)
+
+    # Si la tabla ya existia, agregar columna photo cuando falte.
+    inspector = inspect(db.engine)
+    if 'contacts' in inspector.get_table_names():
+        existing_columns = {column['name'] for column in inspector.get_columns('contacts')}
+        if 'photo' not in existing_columns:
+            db.session.execute(text('ALTER TABLE contacts ADD COLUMN photo VARCHAR(255)'))
+            db.session.commit()
+
     print(" Base de datos inicializada correctamente")
     print(f" Conectado a: {Config.SQLALCHEMY_DATABASE_URI[:50]}...")
 
